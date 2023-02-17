@@ -15,7 +15,7 @@ def upnp(ports_list):
     for device in devices:
         d = device
         break
-    if d
+    if d:
         for port in ports_list:
             resp = d.WANIPConn1.AddPortMapping(
                             NewRemoteHost = '',

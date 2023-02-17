@@ -19,7 +19,7 @@ def DDNS(router_ip, api_url, loop):
     for device in devices:
         d = device
         break
-    if d
+    if d:
         IP = d.WANIPConn1.GetExternalIPAddress()
         if router_ip != IP["NewExternalIPAddress"]:
             try:

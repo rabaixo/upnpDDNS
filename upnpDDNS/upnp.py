@@ -18,10 +18,10 @@ def upnp(ports_list):
                         NewRemoteHost = '',
                         NewExternalPort = port["ExternalPort"],
                         NewProtocol = port["Protocol"],
-                        NewInternalPort = port["InternalClient"],
+                        NewInternalPort = port["InternalPort"],
                         NewInternalClient = port["InternalClient"],
                         NewEnabled='1',
-                        NewPortMappingDescription= port["InternalClient"],
+                        NewPortMappingDescription= port["Description"],
                         NewLeaseDuration=10000
                     )
     print(resp)

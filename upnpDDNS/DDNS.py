@@ -25,6 +25,7 @@ def DDNS(router_ip, api_url, loop):
             try:
                 resp = requests.get(api_url)
                 print(resp.content)
+                router_ip = IP["NewExternalIPAddress"]
             except Exception as err:
                 print(err)
 

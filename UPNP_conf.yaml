@@ -2,19 +2,19 @@
 - ExternalPort: 9898
   Protocol: TCP
   InternalPort: 80
-  InternalClient": IPLOCAL
+  InternalClient:
   Description: HTTP server
 
-- ExternalPort": 1194
-  Protocol":  UDP
+- ExternalPort: 1194
+  Protocol:  UDP
   InternalPort: 1194
   InternalClient: IPLOCAL
   Description: Vpn server
 
 - ExternalPort: 8989
-  Protocol: UDP
-  InternalPort": 22
-  InternalClient: IPLOCAL
-  Description: Vpn server
+  Protocol: UDP - TCP
+  InternalPort: 22
+  InternalClient:
+  Description: SSH server
 
 

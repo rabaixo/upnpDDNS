@@ -98,6 +98,8 @@ def main():
     if upnp_conf:
         with open(upnp_conf) as file:
             upnp_conf_dict = yaml.load(file, Loader=yaml.FullLoader)
+        for item in upnp_conf_dict:
+            item["InternalClient"] = ports_list.IPLOCAL
     else:
         upnp_conf_dict = ports_list
 

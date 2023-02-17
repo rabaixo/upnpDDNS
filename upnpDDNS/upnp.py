@@ -1,9 +1,17 @@
 import upnpclient
-import ports_list
+import sys
 
-def upnp():
+def upnp(ports_list):
+    """Open router ports with upnp
+
+    Args:
+        ports_list (list): dictionaries of the ports information  to open with upnp
+    """
     devices = upnpclient.discover()
-    d = devices[0]
+    try:
+        d = devices[0]
+    except:
+        sys.exit("There is no router with upnp enabled.")
 
     for port in ports_list:
         resp = d.WANIPConn1.AddPortMapping(

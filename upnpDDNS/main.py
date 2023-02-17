@@ -3,10 +3,15 @@
 import argparse
 import sys
 import pkg_resources
+import socket
+import asyncio
+import yaml
 
 # package modules
 from . import upnp as up
 from . import DDNS
+from . import ports_list
+from . import api_DDNS
 
 # parse_args ------------------------------------------------------------------
 def parse_args():
@@ -29,13 +34,27 @@ def parse_args():
     )
 
     parser.add_argument(
+        "-uc",
+        "--upnp_conf",
+        nargs="?",
+        default=None,
+        help="Upnp configuration file.",
+    )
+
+    parser.add_argument(
         "-d",
         "--DDNS",
         action="store_true",
         help="Update the IP in DDNS server.",
     )
 
-
+    parser.add_argument(
+        "-dc",
+        "--DDNS_conf",
+        nargs="?",
+        default=None,
+        help="DDNS configration file.",
+    )
     parser.add_argument(
         "--version",
         action="store_true",
@@ -58,7 +77,10 @@ def main():
     # -------------------------------------------------------------------------
     args = parse_args()
     upnp = args.upnp
+    upnp_conf = args.upnp_conf
     ddns = args.DDNS
+    ddns_conf = args.DDNS_conf
+
     version = args.version
 
 
@@ -73,35 +95,24 @@ def main():
     if not upnp and not ddns:
         sys.exit("Access help by running: upnpDDNS -h ")
 
+    if upnp_conf:
+        with open(upnp_conf) as file:
+            upnp_conf_dict = yaml.load(file, Loader=yaml.FullLoader)
+    else:
+        upnp_conf_dict = ports_list
+
+
     if upnp:
-        up.upnp()
+        up.upnp(upnp_conf_dict)
     if ddns:
-        pass
+        if ddns_conf:
+            with open(ddns_conf) as file:
+                ddns_conf_dict = yaml.load(file, Loader=yaml.FullLoader)
+        else:
+            sys.exit("Please enter the path to the DDNS configuration file.")
+        router_ip = socket.gethostbyname(ddns_conf_dict["zone"])
+        loop = asyncio.new_event_loop()
+        loop.call_soon(DDNS.DDNS, router_ip, api_DDNS.api_url(ddns_conf_dict), loop)
+        loop.run_forever()
 
 
-
-
-
-if __name__ == "__main__":
-    main()
-
-# import asyncio
-
-# def hello_world(loop):
-#     """A callback to print 'Hello World' and stop the event loop"""
-#     print('Hello World')
-#     loop.call_later(1, hello_world,  loop)
-#     #loop.stop()
-
-# loop = asyncio.new_event_loop()
-
-# # Schedule a call to hello_world()
-# loop.call_soon(hello_world, loop)
-
-# # Blocking call interrupted by loop.stop()
-# try:
-#     loop.run_forever()
-# finally:
-#     loop.close()
-
-# import pdb;pdb.set_trace()

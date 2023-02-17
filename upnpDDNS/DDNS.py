@@ -1,4 +1,3 @@
-import upnpclient
 import requests
 import sys
 
@@ -11,6 +10,7 @@ def DDNS(router_ip, api_url, loop):
         api_url (str): DDNS API URL
         loop (asyncio.unix_eventsasyncio.unix_events): Check ip every 5 min
     """
+    import upnpclient
     devices = upnpclient.discover()
     try:
         d = devices[0]
@@ -19,7 +19,7 @@ def DDNS(router_ip, api_url, loop):
         sys.exit("There is no router with upnp enabled.")
 
     IP = d.WANIPConn1.GetExternalIPAddress()
-    if router_ip == IP["NewExternalIPAddress"]:
+    if router_ip != IP["NewExternalIPAddress"]:
         try:
             resp = requests.get(api_url)
             print(resp.content)

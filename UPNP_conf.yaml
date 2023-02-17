@@ -12,7 +12,7 @@
   Description: Vpn server
 
 - ExternalPort: 8989
-  Protocol: UDP - TCP
+  Protocol: TCP
   InternalPort: 22
   InternalClient:
   Description: SSH server

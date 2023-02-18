@@ -7,8 +7,7 @@ try:
 except:
     IPLOCAL = socket.gethostbyname(socket.gethostname())
 
-
-# un argumento de entrada
+# default port list
 ports_list = [
                 {
                     "ExternalPort": 9898,

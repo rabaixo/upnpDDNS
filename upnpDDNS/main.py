@@ -6,6 +6,9 @@ import pkg_resources
 import socket
 import asyncio
 import yaml
+import logging
+import requests
+import time
 
 # package modules
 from . import upnp as up
@@ -94,6 +97,13 @@ def main():
 
     if not upnp and not ddns:
         sys.exit("Access help by running: upnpDDNS -h ")
+    while True:
+        try:
+            requests.get("http://www.google.com")
+            break
+        except requests.exceptions.ConnectionError as err:
+            logging.warning(err)
+            time.sleep(30)
 
     if upnp_conf:
         with open(upnp_conf) as file:
@@ -111,7 +121,9 @@ def main():
             with open(ddns_conf) as file:
                 ddns_conf_dict = yaml.load(file, Loader=yaml.FullLoader)
         else:
+            logging.warning("Please enter the path to the DDNS configuration file.")
             sys.exit("Please enter the path to the DDNS configuration file.")
+
         router_ip = socket.gethostbyname(ddns_conf_dict["zone"])
         loop = asyncio.new_event_loop()
         loop.call_soon(DDNS.DDNS, router_ip, api_DDNS.api_url(ddns_conf_dict), loop)

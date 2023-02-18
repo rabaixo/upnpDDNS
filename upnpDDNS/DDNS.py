@@ -1,7 +1,7 @@
 import requests
 import sys
 import upnpclient
-
+import logging
 
 def DDNS(router_ip, api_url, loop):
     """Update IP on DDNS server when IP changes
@@ -14,6 +14,7 @@ def DDNS(router_ip, api_url, loop):
     d = None
     devices = upnpclient.discover()
     if len(devices) == 0:
+        logging.warning("There is no router with upnp enabled.")
         sys.exit("There is no router with upnp enabled.")
 
     for device in devices:
@@ -24,14 +25,16 @@ def DDNS(router_ip, api_url, loop):
         if router_ip != IP["NewExternalIPAddress"]:
             try:
                 resp = requests.get(api_url)
-                print(resp.content)
+                logging.info(resp.content)
                 router_ip = IP["NewExternalIPAddress"]
             except Exception as err:
-                print(err)
+                logging.error(err)
 
-        print(IP)
+        print(f"Current IP: {IP['NewExternalIPAddress']}")
+        logging.info(f"Current IP: {IP['NewExternalIPAddress']}")
         loop.call_later(300, DDNS, router_ip, api_url, loop)
     else:
         loop.stop()
+        logging.warning("There is no router with upnp enabled.")
         sys.exit("There is no router with upnp enabled.")
 

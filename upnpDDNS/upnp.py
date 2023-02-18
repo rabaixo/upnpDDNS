@@ -1,5 +1,6 @@
 import upnpclient
 import sys
+import logging
 
 def upnp(ports_list):
     """Open router ports with upnp
@@ -10,6 +11,7 @@ def upnp(ports_list):
     d = None
     devices = upnpclient.discover()
     if len(devices) == 0:
+        logging.warning("There is no router with upnp enabled.")
         sys.exit("There is no router with upnp enabled.")
 
     for device in devices:
@@ -29,6 +31,7 @@ def upnp(ports_list):
                         )
         print(resp)
     else:
+        logging.warning("There is no router with upnp enabled an IP.")
         sys.exit("There is no router with upnp enabled an IP.")
 
 

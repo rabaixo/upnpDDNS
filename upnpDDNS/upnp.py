@@ -13,7 +13,7 @@ def upnp(ports_list):
     if len(devices) == 0:
         logging.warning("There is no router with upnp enabled.")
         sys.exit("There is no router with upnp enabled.")
-
+    print(devices)
     for device in devices:
         if hasattr(device, "WANIPConn1"):
             d = device

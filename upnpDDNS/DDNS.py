@@ -18,8 +18,9 @@ def DDNS(router_ip, api_url, loop):
         sys.exit("There is no router with upnp enabled.")
 
     for device in devices:
-        d = device
-        break
+        if hasattr(device, "WANIPConn1"):
+            d = device
+            break
     if d:
         IP = d.WANIPConn1.GetExternalIPAddress()
         if router_ip != IP["NewExternalIPAddress"]:

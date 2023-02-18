@@ -97,13 +97,6 @@ def main():
 
     if not upnp and not ddns:
         sys.exit("Access help by running: upnpDDNS -h ")
-    while True:
-        try:
-            requests.get("http://www.google.com")
-            break
-        except requests.exceptions.ConnectionError as err:
-            logging.warning(err)
-            time.sleep(30)
 
     if upnp_conf:
         with open(upnp_conf) as file:

@@ -15,7 +15,8 @@ def upnp(ports_list):
         sys.exit("There is no router with upnp enabled.")
 
     for device in devices:
-        d = device
+        if hasattr(device, "WANIPConn1"):
+            d = device
         break
     if d:
         for port in ports_list:

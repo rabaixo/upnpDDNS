@@ -17,7 +17,7 @@ def upnp(ports_list):
     for device in devices:
         if hasattr(device, "WANIPConn1"):
             d = device
-        break
+            break
     if d:
         for port in ports_list:
             resp = d.WANIPConn1.AddPortMapping(

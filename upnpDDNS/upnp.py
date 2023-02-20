@@ -28,7 +28,6 @@ def upnp(ports_list):
                             NewInternalClient = port["InternalClient"],
                             NewEnabled='1',
                             NewPortMappingDescription= port["Description"],
-                            NewLeaseDuration=10000
                         )
         print(resp)
     else:

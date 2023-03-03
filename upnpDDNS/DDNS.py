@@ -33,7 +33,7 @@ def DDNS(router_ip, api_url, loop):
 
         print(f"Current IP: {IP['NewExternalIPAddress']}")
         logging.info(f"Current IP: {IP['NewExternalIPAddress']}")
-        loop.call_later(300, DDNS, router_ip, api_url, loop)
+        loop.call_later(120, DDNS, router_ip, api_url, loop)
     else:
         loop.stop()
         logging.warning("There is no router with upnp enabled.")

@@ -4,7 +4,7 @@ import upnpclient
 import logging
 import socket
 
-def DDNS(api_url, ddns_conf_dict, loop):
+def DDNS(ddns_conf_dict, api_url, loop):
     """Update IP on DDNS server when IP changes
 
     Args:
@@ -35,7 +35,7 @@ def DDNS(api_url, ddns_conf_dict, loop):
 
         print(f"Current IP: {IP['NewExternalIPAddress']}")
         logging.info(f"Current IP: {IP['NewExternalIPAddress']}")
-        loop.call_later(120, DDNS, api_url, ddns_conf_dict, loop)
+        loop.call_later(120, DDNS, ddns_conf_dict, api_url, loop)
     else:
         loop.stop()
         logging.warning("There is no router with upnp enabled.")

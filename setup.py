@@ -30,7 +30,7 @@ description = "Update the IP in the DynDNS server and open the necessary ports i
 # =====
 setup(
     name="upnpDDNS",
-    version="0.0.1",
+    version="1.0.1",
     author=["Rabi Ouallam Jamladi"],
     author_email=["rabaixa@gmail.com"],
     description=description,
@@ -42,7 +42,8 @@ setup(
     dependency_links=dependency_links,
     entry_points={
         "console_scripts": [
-            "upnpDDNS=upnpDDNS.main:main"
+            "DDNS=upnpDDNS.DDNS.main:main",
+            "upnp=upnpDDNS.upnp.main:main"
         ]
     },
 )

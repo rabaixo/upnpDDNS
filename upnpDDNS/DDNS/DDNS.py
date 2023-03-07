@@ -2,8 +2,9 @@ import requests
 import sys
 import upnpclient
 import logging
+import socket
 
-def DDNS(router_ip, api_url, loop):
+def DDNS(api_url, ddns_conf_dict, loop):
     """Update IP on DDNS server when IP changes
 
     Args:
@@ -22,6 +23,7 @@ def DDNS(router_ip, api_url, loop):
             d = device
             break
     if d:
+        router_ip = socket.gethostbyname(ddns_conf_dict["zone"])
         IP = d.WANIPConn1.GetExternalIPAddress()
         if router_ip != IP["NewExternalIPAddress"]:
             try:
@@ -33,7 +35,7 @@ def DDNS(router_ip, api_url, loop):
 
         print(f"Current IP: {IP['NewExternalIPAddress']}")
         logging.info(f"Current IP: {IP['NewExternalIPAddress']}")
-        loop.call_later(120, DDNS, router_ip, api_url, loop)
+        loop.call_later(120, DDNS, api_url, ddns_conf_dict, loop)
     else:
         loop.stop()
         logging.warning("There is no router with upnp enabled.")

@@ -39,5 +39,6 @@ def DDNS(ddns_conf_dict, api_url, loop):
     else:
         loop.stop()
         logging.warning("There is no router with upnp enabled.")
-        sys.exit("There is no router with upnp enabled.")
+        loop.call_later(120, DDNS, ddns_conf_dict, api_url, loop)
+
 

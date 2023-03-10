@@ -39,7 +39,8 @@ def upnp(ports_list, loop):
     else:
         loop.stop()
         logging.warning("There is no router with upnp enabled an IP.")
-        sys.exit("There is no router with upnp enabled an IP.")
+        loop.call_later(120, upnp,  ports_list, loop)
+
 
 
 

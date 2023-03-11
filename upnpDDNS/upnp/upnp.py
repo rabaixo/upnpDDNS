@@ -3,6 +3,7 @@ import sys
 import logging
 import os
 import socket
+import datetime
 
 def upnp(ports_list, loop):
     """Open router ports with upnp
@@ -13,8 +14,7 @@ def upnp(ports_list, loop):
     d = None
     devices = upnpclient.discover()
     if len(devices) == 0:
-        logging.warning("There is no router with upnp enabled.")
-        sys.exit("There is no router with upnp enabled.")
+        logging.warning(f"{datetime.datetime.now()}: There is no router with upnp enabled.")
     print(devices)
     for device in devices:
         if hasattr(device, "WANIPConn1"):
@@ -38,7 +38,7 @@ def upnp(ports_list, loop):
         loop.call_later(120, upnp,  ports_list, loop)
     else:
         loop.stop()
-        logging.warning("There is no router with upnp enabled an IP.")
+        logging.warning(f"{datetime.datetime.now()}: There is no router with upnp enabled an IP.")
         loop.call_later(120, upnp,  ports_list, loop)
 
 

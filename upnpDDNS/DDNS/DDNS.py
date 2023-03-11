@@ -3,6 +3,7 @@ import sys
 import upnpclient
 import logging
 import socket
+import datetime
 
 def DDNS(ddns_conf_dict, api_url, loop):
     """Update IP on DDNS server when IP changes
@@ -15,8 +16,7 @@ def DDNS(ddns_conf_dict, api_url, loop):
     d = None
     devices = upnpclient.discover()
     if len(devices) == 0:
-        logging.warning("There is no router with upnp enabled.")
-        sys.exit("There is no router with upnp enabled.")
+        logging.warning(f"{datetime.datetime.now()}: There is no router with upnp enabled.")
 
     for device in devices:
         if hasattr(device, "WANIPConn1"):
@@ -38,7 +38,7 @@ def DDNS(ddns_conf_dict, api_url, loop):
         loop.call_later(120, DDNS, ddns_conf_dict, api_url, loop)
     else:
         loop.stop()
-        logging.warning("There is no router with upnp enabled.")
+        logging.warning(f"{datetime.datetime.now()}: There is no router with upnp enabled.")
         loop.call_later(120, DDNS, ddns_conf_dict, api_url, loop)
 
 
